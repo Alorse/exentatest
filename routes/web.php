@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TweetController;
+use App\Http\Controllers\FollowController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,3 +34,13 @@ Route::get(
         '/user/{id}', 
         [UserController::class, 'show']
     )->name('user');
+
+Route::post(
+    '/tweet',
+    [TweetController::class, 'store']
+);
+
+Route::post(
+    '/follow',
+    [FollowController::class, 'store']
+);

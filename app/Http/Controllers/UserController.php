@@ -55,12 +55,16 @@ class UserController extends Controller
 
     private function dasboardView($user)
     {
+        $imfollow = count($this->followActions->areFollowers(
+            Auth::user()->id, $user->id
+        ));
         return view('dashboard', [
             'user' => $user,
             'tweets' => $this->tweetActions->findByParams([], $user->id),
-            'followers' => count($this->followActions->findFollowers($user->id)),
-            'following' => count($this->followActions->findFollowing($user->id)),
-            'who_follow' => User::inRandomOrder()->limit(5)->get()
+            'following' => count($this->followActions->findFollowers($user->id)),
+            'followers' => count($this->followActions->findFollowing($user->id)),
+            'who_follow' => $this->followActions->whoToFollow(),
+            'imfollow' => $imfollow > 0 ? true : false
         ]);
     }
 }

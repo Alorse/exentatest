@@ -9,7 +9,23 @@
     <div class="left-sidebar">
 
         <div class="user-summary top-level-panel">
-
+            @unless (Auth::user()->id == $user->id)
+            <form method="post" action="/follow" enctype="multipart/form-data" style="height: 0;">
+                {{ csrf_field() }}
+                <input name="user_id" type="hidden" value="{{$user->id}}" />
+                <input name="action" type="hidden" value="{{$imfollow}}" />
+                <button type="submit">
+                    <div class="follow">
+                        <img src="{{ asset('images/follow.gif') }}" alt="" />
+                        @if ($imfollow)
+                            <p style="color:red">Unfollow</p>
+                        @else
+                            <p>Follow</p>
+                        @endif
+                    </div>
+                </button>
+            </form>
+            @endunless
             <div class="user-info-wrap">
                 <img src="{{ asset('images/avatars/' . $user->id . '.png') }}" 
                     alt="" class="profile-picture" />
@@ -68,12 +84,17 @@
                 <img src="{{ asset('images/avatars/' . $user->id . '.png') }}" 
                 alt="" class="profile-picture-small" />
                 <div class="tweet-input-wrap">
-                    <input type="text" placeholder="What's happening?" />
+                    <form method="post" action="/tweet" enctype="multipart/form-data">
+                        {{ csrf_field() }}
+                        <input
+                            id="text"
+                            name="text"
+                            type="text"
+                            placeholder="What's happening?"
+                         />
+                        <button type="submit" class="submit">Tweet</button>
+                    </form>
                 </div>
-            </li>
-
-            <li class="view-new-tweets">
-                <button type="button">Tweet</button>
             </li>
         @endunless
 
@@ -138,7 +159,9 @@
 
                         <div class="follow">
                             <img src="{{ asset('images/follow.gif') }}" alt="" />
-                            <p>Follow</p>
+                            <p>
+                                <a href="{{ route('user', ['id' => $follow->id]) }}" >follow</a>
+                            </p>
                         </div>
                     </div>
 
