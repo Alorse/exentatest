@@ -46,6 +46,14 @@ Then install en run NPM
 
 `php artisan test`
 
+# User Test
+
+You can create you own user to test the app, however you can use this user the has enoght information to test all features and it is included in the Seed
+
+> Email: **admin@mail.com**
+
+> Password: **12345678**
+
 
 ## Server Requirements
 
