@@ -15,8 +15,8 @@ class CreateFollowTable extends Migration
     {
         Schema::create('follow', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('followed_user_id')->nullable()->index();
             $table->foreignId('follower_user_id')->nullable()->index();
+            $table->foreignId('followed_user_id')->nullable()->index();
             $table->timestamps();
         });
     }
