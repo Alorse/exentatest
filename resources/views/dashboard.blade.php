@@ -11,25 +11,26 @@
         <div class="user-summary top-level-panel">
 
             <div class="user-info-wrap">
-                <img src="images/avatars/1.png" alt="" class="profile-picture" />
+                <img src="{{ asset('images/avatars/' . $user->id . '.png') }}" 
+                    alt="" class="profile-picture" />
 
                 <div class="username-wrap">
-                    <a href="#" class="display-name">LillyRue</a>
-                    <a href="#" class="username">@lilly_rue</a>
+                    <a href="#" class="display-name">{{ $user->name }}</a>
+                    <a href="#" class="username">{{ $user->username }}</a>
                 </div>
 
                 <ul class="user-stats">
                     <li>
                         <a href="#" class="user-stats-header">Tweets</a>
-                        <a href="#" class="user-stats-value">17</a>
+                        <a href="#" class="user-stats-value">{{ count($tweets) }}</a>
                     </li>
                     <li>
                         <a href="#" class="user-stats-header">Following</a>
-                        <a href="#" class="user-stats-value">86</a>
+                        <a href="#" class="user-stats-value">{{ $following }}</a>
                     </li>
                     <li>
                         <a href="#" class="user-stats-header">Followers</a>
-                        <a href="#" class="user-stats-value">2</a>
+                        <a href="#" class="user-stats-value">{{ $followers }}</a>
                     </li>
                 </ul>
             </div>
@@ -37,7 +38,6 @@
 
         <div class="trending top-level-panel">
             <h1>Trends</h1>
-            <a href="#" class="change-trends">Change</a>
             <div class="clear"></div>
 
             <ul class="trend-list">
@@ -63,62 +63,52 @@
 
     <div class="central-content top-level-panel">
         <ul class="tweet-feed">
+        @unless (Auth::user()->id !== $user->id)
             <li class="new-tweet">
-                <img src="images/avatars/1.png" alt="" class="profile-picture-small" />
+                <img src="{{ asset('images/avatars/' . $user->id . '.png') }}" 
+                alt="" class="profile-picture-small" />
                 <div class="tweet-input-wrap">
                     <input type="text" placeholder="What's happening?" />
-                    <img src="images/attach.png" alt="" class="attach-photo" />
                 </div>
             </li>
 
             <li class="view-new-tweets">
-                <p>View 22 new Tweets</p>
+                <button type="button">Tweet</button>
             </li>
+        @endunless
 
+            @foreach ($tweets as $tweet)
             <li class="tweet">
-                <img src="images/avatars/1.png" alt="" class="tweet-profile-thumbnail" />
+                <img src="{{ asset('images/avatars/' . $tweet->user_id . '.png') }}" 
+                alt="" class="tweet-profile-thumbnail" />
                 <div class="tweet-content-wrap">
                     <div class="tweet-header">
-                        <a href="#" class="tweet-display-name">LillyRue</a>
-                        <a href="#" class="tweet-username">@lilly_rue</a>
-                        <a href="#" class="tweet-time">20m</a>
-                    </div>
-                    <p class="tweet-text">
-                        Watch <a href="#" class="user-mention">@lorem_ipsum</a> dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor :</br><a href="#" class="external-link">https://google.com/1JOUC81</a>
-                    </p>
-                    <ul class="tweet-action-buttons">
-                        <li><img src="images/reply.gif" alt="" /></li>
-                        <li><img src="images/retweet.gif" alt="" /></li>
-                        <li><img src="images/star.gif" alt="" /></li>
-                        <li><img src="images/more.gif" alt="" /></li>
-                    </ul>
-                </div>
-                <div class="clear"></div>
-            </li>
-
-            <li class="tweet">
-                <img src="images/avatars/1.png" alt="" class="tweet-profile-thumbnail" />
-                <div class="tweet-content-wrap">
-                    <div class="tweet-header">
-                        <a href="#" class="tweet-display-name">LillyRue</a>
-                        <a href="#" class="tweet-username">@lilly_rue</a>
+                        <a href="#" class="tweet-display-name">{{ $user->name }}</a>
+                        <a href="#" class="tweet-username">{{ $user->username }}</a>
                         <a href="#" class="tweet-time">2h</a>
                     </div>
                     <p class="tweet-text">
-                        RT <a href="#" class="user-mention">@perspiciatis</a>: Sed ut unde omnis iste natus error sit <a href="#" class="user-mention">#voluptatem</a> accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi beatae vitae dicta sunt explicabo <a href="#" class="user-mention">@architecto</a>. <a href="#" class="external-link">google.com/1P1INge</a>
+                        {{ $tweet->text }}
                     </p>
-                    <img src="images/tweet-media.jpg" alt="" class="tweet-photo" />
                     <ul class="tweet-action-buttons">
-                        <li><img src="images/reply.gif" alt="" /><span></span></li>
-                        <li><img src="images/retweet.gif" alt="" /><span>45</span></li>
-                        <li><img src="images/star.gif" alt="" /><span>3</span></li>
-                        <li><img src="images/more.gif" alt="" /></li>
+                        <li>
+                            <img src="{{ asset('images/reply.gif') }}" alt="" />
+                        </li>
+                        <li>
+                            <img src="{{ asset('images/retweet.gif') }}" alt="" />
+                        </li>
+                        <li>
+                            <img src="{{ asset('images/star.gif') }}" alt="" />
+                        </li>
+                        <li>
+                            <img src="{{ asset('images/more.gif') }}" alt="" />
+                        </li>
                     </ul>
 
-                    <a href="#" class="view-media">View photo</a>
                 </div>
                 <div class="clear"></div>
             </li>
+            @endforeach
         </ul>
     </div>
 
@@ -131,44 +121,30 @@
             </ul>
 
             <ul class="who-to-follow-list">
+                @foreach ($who_follow as $follow)
                 <li>
-                    <img src="images/avatars/2.png" alt="" class="tweet-profile-thumbnail" />
+                    <img src="{{ asset('images/avatars/' . $follow->id . '.png') }}" 
+                    alt="" class="tweet-profile-thumbnail" />
 
                     <div class="who-to-follow-right-wrap">
                         <p class="who-to-follow-line-wrap">
-                            <a href="#" class="who-to-follow-display-name">Webroot</a>
-                            <a href="#" class="tweet-username">@webroot</a>
+                            <a href="{{ route('user', ['id' => $follow->id]) }}" 
+                                class="who-to-follow-display-name">{{ $follow->name }}</a>
+                            <a href="{{ route('user', ['id' => $follow->id]) }}" 
+                                class="tweet-username">{{ $follow->username }}</a>
                         </p>
 
                         <div class="clear"></div>
 
                         <div class="follow">
-                            <img src="images/follow.gif" alt="" />
+                            <img src="{{ asset('images/follow.gif') }}" alt="" />
                             <p>Follow</p>
                         </div>
                     </div>
 
                     <div class="clear"></div>
                 </li>
-                <li>
-                    <img src="images/avatars/3.png" alt="" class="tweet-profile-thumbnail" />
-
-                    <div class="who-to-follow-right-wrap">
-                        <p class="who-to-follow-line-wrap">
-                            <a href="#" class="who-to-follow-display-name">Carter</a>
-                            <a href="#" class="tweet-username">@carter3</a>
-                        </p>
-
-                        <div class="clear"></div>
-
-                        <div class="follow">
-                            <img src="images/follow.gif" alt="" />
-                            <p>Follow</p>
-                        </div>
-                    </div>
-
-                    <div class="clear"></div>
-                </li>
+                @endforeach
             </ul>
             <div class="clear"></div>
         </div>
