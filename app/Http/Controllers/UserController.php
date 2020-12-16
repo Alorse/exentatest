@@ -58,10 +58,14 @@ class UserController extends Controller
         $imfollow = count($this->followActions->areFollowers(
             Auth::user()->id, $user->id
         ));
+        $followig = $this->followActions->findFollowers($user->id);
         return view('dashboard', [
             'user' => $user,
-            'tweets' => $this->tweetActions->findByParams([], $user->id),
-            'following' => count($this->followActions->findFollowers($user->id)),
+            'tweets' => $this->tweetActions->findByParams(
+                $followig,
+                $user->id
+            ),
+            'following' => count($followig),
             'followers' => count($this->followActions->findFollowing($user->id)),
             'who_follow' => $this->followActions->whoToFollow(),
             'imfollow' => $imfollow > 0 ? true : false

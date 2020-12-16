@@ -79,7 +79,7 @@
 
     <div class="central-content top-level-panel">
         <ul class="tweet-feed">
-        @unless (Auth::user()->id !== $user->id)
+        @if (Auth::user()->id == $user->id)
             <li class="new-tweet">
                 <img src="{{ asset('images/avatars/' . $user->id . '.png') }}" 
                 alt="" class="profile-picture-small" />
@@ -96,8 +96,7 @@
                     </form>
                 </div>
             </li>
-        @endunless
-
+        @endif
             @foreach ($tweets as $tweet)
             <li class="tweet">
                 <img src="{{ asset('images/avatars/' . $tweet->user_id . '.png') }}" 
@@ -131,6 +130,7 @@
             </li>
             @endforeach
         </ul>
+        {{ $tweets->links() }}
     </div>
 
     <div class="right-sidebar">
