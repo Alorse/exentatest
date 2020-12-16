@@ -23,8 +23,7 @@ class BasicTest extends TestCase
         ];
     
         $response = $this->post('/register', $user);
-        // $this->assertAuthenticatedAs($user);
-
+        $response->assertRedirect('/');
     
         $this->assertDatabaseHas('users', $user);
     }
